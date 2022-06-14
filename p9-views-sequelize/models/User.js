@@ -1,17 +1,7 @@
 const Sequelize = require('sequelize');
+const db = require('../database/db');
 
-const sequelize = new Sequelize('senac','root','',{
-  host: 'localhost',
-  dialect: 'mysql'
-});
-
-sequelize.authenticate().then( function(){
-  console.log('Conecção com o banco de dados relaizada com sucesso!');
-}).catch(function(err){
-  console.log(`Erro conecção : ${err}`);
-});
-
-const User = sequelize.define('users',{
+const User = db.define('users',{
   id: {
     type: Sequelize.INTEGER,  
     autoIncrement: true,
@@ -45,11 +35,7 @@ const User = sequelize.define('users',{
 //User.sync({force: true})
 
 // verificar se há alguma diferença na tabel, raliza alteração
-User.sync({alter:true});
+//User.sync({alter:true});
 
-// cadastrar registro no banco de dados
-// User.create({
-//   name: "Roberta",
-//   email: "email@email.br",
-//   gender: "F"
-// })
+
+module.exports = User;
