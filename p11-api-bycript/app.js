@@ -1,6 +1,7 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const app = express();
-const port = 4500;
+require('dotenv').config()
 const User = require('./models/User');
 
 app.use(express.json());
@@ -55,7 +56,13 @@ app.get('/users/:id', async (req, res) =>{
 /*************************************************************************** */
 app.post('/user', async(req, res) =>{
   // const {name, email, gender, password} = req.body 
-  await User.create(req.body)
+  var dados = req.body;
+  console.log(dados);
+  dados.password = await bcrypt.hash(dados.password, 8);
+  console.log(dados.password);
+
+
+  await User.create(dados)
   .then(()=>{
     return res.json({
       erro: false,
@@ -85,7 +92,6 @@ app.put("/user", async(req,res)=>{
     })
   })
 })
-/********************************************************************* */
 
 app.delete("/user/:id", async(req,res)=>{
   const {id} = req.params;
@@ -103,10 +109,55 @@ app.delete("/user/:id", async(req,res)=>{
   })
 })
 
+app.get("/login", async(req, res)=>{
+  const user = await User.findOne({  
+    attrinutes: ['id', 'name', 'email','gender'],
+    where:{
+      email: req.body.email
+    }
+  })
+  if(user === null){
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Erro: Usuário ou senha incorreta!"
+    })
+  }
+  if(!(await bcrypt.compare(req.body.password, user.password))){
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Erro: Email ou senha incorreta!"
+    })
+  }
+  return res.json({
+    erro: false,
+    mensagem: "Login realizado com sucesso!!!",
+    user
+  })
+})
 
 
-app.listen(port, ()=>{
-  console.log(`Servidor iniciado na porta ${port} http://localhost:${port}`);
+
+app.put('/user-senha', async (req, res) => {
+  const {id, password} = req.body;
+  var senhaCrypt = await bcrypt.hash(password,8);
+  await User.update({password:senhaCrypt}, {where: {id: id}})
+  .then(()=>{
+    return res.json({
+      erro: false,
+      mensagem: "Senha editada com sucesso!"
+    });
+  }).catch((err)=>{
+    return res.status(400).json({
+      erro: true,
+      mensagem: `Erro: ${err}... A senha não foi alterada!!!`
+    })
+  })
+})
+
+
+
+app.listen(process.env.PORT, ()=>{
+  console.log(`Servidor iniciado na porta ${process.env.PORT} http://localhost:${process.env.PORT}`);
 });
 
 
