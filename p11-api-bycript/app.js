@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const app = express();
-const port = 4500;
+require('dotenv').config()
 const User = require('./models/User');
 
 app.use(express.json());
@@ -130,12 +130,34 @@ app.get("/login", async(req, res)=>{
   }
   return res.json({
     erro: false,
-    mensagem: "Login realizado com sucesso!!!"
+    mensagem: "Login realizado com sucesso!!!",
+    user
   })
 })
 
-app.listen(port, ()=>{
-  console.log(`Servidor iniciado na porta ${port} http://localhost:${port}`);
+
+
+app.put('/user-senha', async (req, res) => {
+  const {id, password} = req.body;
+  var senhaCrypt = await bcrypt.hash(password,8);
+  await User.update({password:senhaCrypt}, {where: {id: id}})
+  .then(()=>{
+    return res.json({
+      erro: false,
+      mensagem: "Senha editada com sucesso!"
+    });
+  }).catch((err)=>{
+    return res.status(400).json({
+      erro: true,
+      mensagem: `Erro: ${err}... A senha não foi alterada!!!`
+    })
+  })
+})
+
+
+
+app.listen(process.env.PORT, ()=>{
+  console.log(`Servidor iniciado na porta ${process.env.PORT} http://localhost:${process.env.PORT}`);
 });
 
 
