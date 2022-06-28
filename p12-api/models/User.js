@@ -29,7 +29,7 @@ const User = db.define('willy_users',{
 })
 
 //Criar a tabela com sequelize
-User.sync();
+//User.sync();
 
 // Excluir a tabela e criar novamente
 //User.sync({force: true})
