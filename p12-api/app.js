@@ -3,6 +3,7 @@ const app = express();
 require('dotenv').config()
 const Categories = require('./models/Categories');
 const User = require('./models/User');
+const Products = require('./models/Products');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
