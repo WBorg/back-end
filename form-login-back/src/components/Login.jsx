@@ -20,7 +20,7 @@ export  function Login() {
         <Flex>
           <Link color="cyan.800" as='a'>Esqueci minha senha</Link>
           <Spacer/>
-          <Link color="cyan.800" as='a'>Trocar senha</Link>
+          <Link color="cyan.800" as='a'>Cadastrar</Link>
         </Flex>
 
         <Button type="submit" mt="12" colorScheme="facebook">Entrar</Button>
