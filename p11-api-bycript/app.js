@@ -169,7 +169,8 @@ app.put('/user-senha', async (req, res) => {
     var senhaCrypt = await bcrypt.hash(password, 8);
 
     await User.update({password: senhaCrypt }, {where: {id: id}})
-    .then(() => {
+    .then((res) => {
+        console.log(res)
         return res.json({
             erro: false,
             mensagem: "Senha edita com sucesso!"

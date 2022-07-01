@@ -4,6 +4,7 @@ require('dotenv').config()
 
 const Categories = require('./models/Categories');
 const Products = require('./models/Products');
+const Users = require('./models/User');
 
 const router = require('./routes/index');
 

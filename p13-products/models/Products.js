@@ -29,7 +29,9 @@ const Products = db.define('willy_products', {
 
 Products.belongsTo(Categories, {
     constraint: true,
-    foreignKey: 'categorieId'
+    foreignKey: 'categorieId',
+    onDelete: 'RESTRICT',
+    onUpdate : 'CASCADE'
 })
 
 //Criar a tabela com sequelize
