@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Input as ChakraInput } from "@chakra-ui/react";
 
 
+
 export function Input({ label, name, ...rest }) {
   return (
     <FormControl>
@@ -12,6 +13,7 @@ export function Input({ label, name, ...rest }) {
         variant="outline"
         {...rest}
       />
+    
     </FormControl>
 
   )
