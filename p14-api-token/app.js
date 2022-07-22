@@ -8,6 +8,7 @@ require('dotenv').config();
 const { validaToken } = require('./middlewares/auth');
 const sendMail = require('./providers/mailProvider');
 const {userCreateMailTemplate} = require('./template/userCreateMail');
+const { SequelizeScopeError } = require('sequelize/types');
 
 
 app.use(express.json());
@@ -134,6 +135,16 @@ app.delete("/user/:id", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+
+
+    await sleep(3000)
+
+    function sleep(ms){
+        return new Promise((resolve)=>{
+            setTimeout(resolve,ms)
+        })
+    }
+
     const user = await User.findOne({
         attributes: ['id', 'name', 'email', 'gender', 'password'],
         where: {
