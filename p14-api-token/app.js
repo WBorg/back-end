@@ -8,7 +8,6 @@ require('dotenv').config();
 const { validaToken } = require('./middlewares/auth');
 const sendMail = require('./providers/mailProvider');
 const {userCreateMailTemplate} = require('./template/userCreateMail');
-const { SequelizeScopeError } = require('sequelize/types');
 
 
 app.use(express.json());
