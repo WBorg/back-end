@@ -21,7 +21,7 @@ module.exports ={
  }
  try{
      const decoded = await promisify(jwt.verify)(token, process.env.SECRET);
-     req.userId = decoded.id;
+      req.userId = decoded.id;
      console.log(req.userId);
      return next();
   }catch(err){
