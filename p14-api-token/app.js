@@ -163,7 +163,7 @@ app.post("/login", async (req, res) => {
         })
     }
     var token = jwt.sign({id: user.id}, process.env.SECRET,{
-        expiresIn: 600 // 10min, '7d' 7dias
+        expiresIn: 600 // 1min, '7d' 7dias
     })
     return res.json({
         erro:false,
@@ -191,6 +191,24 @@ app.put('/user-senha', async (req, res) => {
             mensagem: `Erro: ${err}... A senha não foi alterada!!!`
         })
     })
+})
+
+app.get('/validaToken', validaToken, async (req, res) => {
+    await User.findByPk(req.userId, {
+        attributes: ['id', 'name', 'email']
+    }).then((user)=>{
+        return res.status(200).json({
+            erro: false,
+            user
+        })
+    }).catch(() => {
+        return res.status(400).json({
+            erro: true,
+      
+            mensagem: "Erro: Necessário ralizar o login"
+    })
+
+})
 })
 
 
