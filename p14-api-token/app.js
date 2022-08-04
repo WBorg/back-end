@@ -100,7 +100,7 @@ app.post("/user",validaToken, async (req, res) => {
     })
 })
 
-app.put("/user", async (req, res) => {
+app.put("/user",validaToken, async (req, res) => {
     const { id } = req.body;
 
     await User.update(req.body, {where: {id}})
