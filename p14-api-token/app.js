@@ -117,7 +117,7 @@ app.put("/user",validaToken, async (req, res) => {
     })
 })
 
-app.delete("/user/:id", async (req, res) => {
+app.delete("/user/:id",validaToken, async (req, res) => {
     const { id } = req.params;
     await User.destroy({ where: {id}})
     .then( () => {
@@ -174,7 +174,7 @@ app.post("/login", async (req, res) => {
 })
  
 
-app.put('/user-senha', async (req, res) => {
+app.put('/user-senha',validaToken, async (req, res) => {
     const {id, password } = req.body;
     var senhaCrypt = await bcrypt.hash(password, 8);
 

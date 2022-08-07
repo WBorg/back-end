@@ -14,6 +14,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.get("/", function(request,response){
   response.send("Serviço API Rest iniciada...");
+  console.log(response)
 })
 
 
