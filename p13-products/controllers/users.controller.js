@@ -28,7 +28,7 @@ exports.create =  async(req, res) =>{
 exports.findAll = async(req,res)=>{
   await Users.findAll({
     attributes: ['id','name','email','gender', 'password'],
-    order: [['name', 'ASC']]
+    order: [['id', 'ASC']]
 
   })
   .then((users) => {
@@ -69,7 +69,7 @@ exports.findOne = async (req, res) =>{
     if(!users){
       return res.status(400).json({
         erro: true,
-        mensagem: "Erro:Nenhum produto encontrado!"
+        mensagem: "Erro:Nenhum usuário encontrado!"
       })
     }
     res.status(200).json({

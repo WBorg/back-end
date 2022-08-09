@@ -6,8 +6,8 @@ usersRoutes.get("/all",validaToken, users.findAll);
 
 usersRoutes.get("/show/:id",validaToken, users.findOne);
 
-usersRoutes.post("/create", users.create);
-validaToken
+usersRoutes.post("/create",validaToken, users.create);
+
 usersRoutes.put("/update",validaToken, users.update);
 
 usersRoutes.delete("/delete/:id",validaToken, users.delete);

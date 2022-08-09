@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 require('dotenv').config()
 var cors = require('cors')
+const { validaToken } = require('./middlewares/auth');
+
 
 
 const Categories = require('./models/Categories');
@@ -25,6 +27,24 @@ app.use((req,res,next)=>{
 app.get("/", function(request,response){
   response.send("Serviço API Rest iniciada...");
   console.log(response)
+})
+
+app.get('/validaToken', validaToken, async (req, res) => {
+  await Users.findByPk(req.userId, {
+      attributes: ['id', 'name', 'email']
+  }).then((user)=>{
+      return res.status(200).json({
+          erro: false,
+          user
+      })
+  }).catch(() => {
+      return res.status(400).json({
+          erro: true,
+    
+          mensagem: "Erro: Necessário ralizar o login"
+  })
+
+})
 })
 
 
