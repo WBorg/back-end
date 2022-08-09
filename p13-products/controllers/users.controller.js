@@ -1,5 +1,7 @@
 const Users = require('../models/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 
 
 exports.create =  async(req, res) =>{
@@ -117,13 +119,26 @@ exports.login =  async (req, res) => {
           mensagem: "Erro: Email ou senha incorreta!!!"
       })
   }
-  return res.json({
-      erro:false,
-      mensagem: "Login realizado com sucesso!!!",
-      name: user.name,
-      email: user.email,
-      gender: user.gender
+  var token = jwt.sign({id: user.id}, process.env.SECRET,{
+    expiresIn: 600 // 1min, '7d' 7dias
   })
+  return res.json({
+    erro:false,
+    mensagem: "Login realizado com sucesso!!!",
+    token
+    
+  })
+  
+
+
+
+  // return res.json({
+  //     erro:false,
+  //     mensagem: "Login realizado com sucesso!!!",
+  //     name: user.name,
+  //     email: user.email,
+  //     gender: user.gender
+  // })
 }
 /********************************************************************** */
 exports.changepass =  async (req, res) => {
