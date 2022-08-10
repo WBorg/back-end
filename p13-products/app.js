@@ -30,7 +30,7 @@ app.get("/", function(request,response){
 })
 
 app.get('/validaToken', validaToken, async (req, res) => {
-  await Users.findByPk(req.userId, {
+  await Users.findByPk(key, {
       attributes: ['id', 'name', 'email']
   }).then((user)=>{
       return res.status(200).json({
