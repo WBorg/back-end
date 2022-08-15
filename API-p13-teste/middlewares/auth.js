@@ -15,15 +15,15 @@ module.exports ={
   if(!token){
      return res.status(400).json({
          erro: true,
-         mensagem: "Erro: Nexessário realizar login"
+         mensagem: "Erro: Necessário realizar login"
   
   })
  }
  try{
-     const decoded = await promisify(jwt.verify)(token, process.env.SECRET);
+      const decoded = await promisify(jwt.verify)(token, process.env.SECRET);
       key = decoded.id;
-     console.log(`CHAVE: ${key}`);
-     return next();
+      console.log(`CHAVE: ${key}`);
+      return next();
   }catch(err){
      if(err){
          

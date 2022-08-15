@@ -157,7 +157,7 @@ exports.changepass =  async (req, res) => {
       // console.log(res.json());
       return res.json({
           erro: false,
-          mensagem: "Senha edita com sucesso!"
+          mensagem: "Senha editada com sucesso!"
       }); 
   }).catch( (err) => {
       return res.status(400).json({
@@ -165,4 +165,22 @@ exports.changepass =  async (req, res) => {
           mensagem: `Erro: ${err}... A senha não foi alterada!!!`
       })
   })
+}
+
+exports.validaToken =  async (req, res) => {
+  await Users.findByPk(key, {
+      attributes: ['id', 'name', 'email']
+  }).then((user)=>{
+      return res.status(200).json({
+          erro: false,
+          user
+      })
+  }).catch(() => {
+      return res.status(400).json({
+          erro: true,
+    
+          mensagem: "Erro: Necessário ralizar o login"
+  })
+
+})
 }

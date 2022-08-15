@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 require('dotenv').config()
 var cors = require('cors')
-const { validaToken } = require('./middlewares/auth');
 
 
 
@@ -29,27 +28,10 @@ app.get("/", function(request,response){
   console.log(response)
 })
 
-app.get('/validaToken', validaToken, async (req, res) => {
-  await Users.findByPk(key, {
-      attributes: ['id', 'name', 'email']
-  }).then((user)=>{
-      return res.status(200).json({
-          erro: false,
-          user
-      })
-  }).catch(() => {
-      return res.status(400).json({
-          erro: true,
-    
-          mensagem: "Erro: Necessário ralizar o login"
-  })
-
-})
-})
-
-
-
 app.use(router);
+
+
+
 app.listen(process.env.PORT, ()=>{
   console.log(`Servidor iniciado na porta ${process.env.PORT} http://localhost:${process.env.PORT}`);
 });
