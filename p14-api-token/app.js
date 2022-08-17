@@ -75,19 +75,19 @@ app.post("/user",validaToken, async (req, res) => {
 
     await User.create(dados)
     .then( ()=>{
-        /* enviar e-mail *******************************************/
-        // let to = email;
-        // let cc = '';
-        // let subject = 'Sua conta foi criada com sucesso!';
+         
+        let to = email;
+        let cc = '';
+        let subject = 'Sua conta foi criada com sucesso!';
         
-        // let mailBody = userCreateMailTemplate({
-        //     name : dados.name,
-        //     email: dados.email,
-        //     gender: dados.gender
-        // })
+        let mailBody = userCreateMailTemplate({
+            name : dados.name,
+            email: dados.email,
+            gender: dados.gender
+        })
        
-        // sendMail(to, cc, subject , mailBody);
-/************************************************************* */
+        sendMail(to, cc, subject , mailBody);
+
         return res.json({
             erro: false,
             mensagem: 'Usuário cadastrado com sucesso!'
