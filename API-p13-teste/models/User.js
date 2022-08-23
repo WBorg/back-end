@@ -25,7 +25,8 @@ const User = db.define('willy_users',{
   password:{
     type: Sequelize.STRING,
     allowNull: false
-  }
+  },
+  
 })
 
 //Criar a tabela com sequelize
