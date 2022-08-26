@@ -125,7 +125,8 @@ exports.login =  async (req, res) => {
   return res.json({
     erro:false,
     mensagem: "Login realizado com sucesso!!!",
-    token
+    token,
+    user: user.id
     
   })
   
@@ -183,4 +184,87 @@ exports.validaToken =  async (req, res) => {
   })
 
 })
+}
+
+/***************************************************************************************************** */
+exports.editProfileImage = async (req,res)=>{
+
+
+  if(req.file){
+      console.log(req.file)
+
+      /* apagando a imagem antiga no diretório */
+      await Users.findByPk(req.userId)
+      .then( user => {
+          console.log(user)
+          const imgOld = './public/upload/users/' + user.dataValues.imagem
+
+          fs.access(imgOld, (err)=>{
+              if(!err){
+                  fs.unlink(imgOld, ()=>{})
+              }
+          })
+      }).catch(()=>{
+          return res.status(400).json({
+              erro: true,
+              mensagem: "Erro: Perfil do usuário não encontrado!"
+          })
+      })
+      /******************************************/
+
+
+      await Users.update({imagem: req.file.filename},
+                      {where: {id: req.userId}})
+      .then(()=>{
+              return res.json({
+                  erro: false,
+                  mensagem: "Imagem de Usuário editada com sucesso!"
+              })
+      }).catch((err)=>{
+          return res.status(400).json({
+              erro: true,
+              mensagem: `Erro: imagem não editada... ${err}`
+          })
+      })
+} else{
+  return res.status(400).json({
+      erro: true,
+      mensagem: `Erro: Selecione uma imagem em um formato válido (.png .jpeg)`
+  })
+
+}   
+
+}
+
+/****************************************************************************************** */
+
+exports.viewProfile =  async (req, res) => {
+  const { id } = req.params;
+  try {
+      // await User.findAll({ where: {id: id}})
+      const users = await Users.findByPk(id);
+      if(!users){
+          return res.status(400).json({
+              erro: true,
+              mensagem: "Erro: Nenhum Usuário encontrado!"
+          })
+      }
+      if(users.image){
+          var endImage = process.env.URL_IMG + "/files/users" + users.image
+      }
+      else{
+        var endImage = ""
+      }
+      var endImagem = "http://localhost:4500/files/users/" + users.imagem
+      res.status(200).json({
+          erro:false,
+          users,
+          endImagem
+      })
+  } catch (err){
+      res.status(400).json({
+          erro: true,
+          mensagem: `Erro: ${err}`
+      })
+  }
 }

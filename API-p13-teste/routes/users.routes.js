@@ -1,6 +1,9 @@
 const usersRoutes = require('express').Router();
 const users = require('../controllers/users.controller');
 const { validaToken } = require('../middlewares/auth');
+const upload = require('../middlewares/uploadImgUser');
+
+
 
 usersRoutes.get("/all",validaToken, users.findAll);
 
@@ -16,4 +19,7 @@ usersRoutes.post("/login", users.login);
 
 usersRoutes.put("/changepass",validaToken, users.changepass);
 
+usersRoutes.put("/edit-profile-image",validaToken,upload.single('image'), users.editProfileImage);
 module.exports = usersRoutes;
+
+usersRoutes.get("/view-profile/:id",validaToken, users.viewProfile);
