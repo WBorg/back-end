@@ -3,6 +3,11 @@ const app = express();
 require('dotenv').config()
 var cors = require('cors')
 
+/* file system -> trabalhando com arquivos */
+const fs = require('fs')
+/********* Caminho de pasta Path */
+const path = require('path');
+
 
 
 const Categories = require('./models/Categories');
@@ -10,6 +15,9 @@ const Products = require('./models/Products');
 const Users = require('./models/User');
 
 const router = require('./routes/index');
+
+// caminho para a pasta de upload -> isso deixa o caminho consultável no navegador
+app.use('/files', express.static(path.resolve(__dirname, "public", "upload")))
 
 
 app.use(express.json());

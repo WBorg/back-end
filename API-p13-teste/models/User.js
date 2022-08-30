@@ -26,6 +26,10 @@ const User = db.define('willy_users',{
     type: Sequelize.STRING,
     allowNull: false
   },
+  imagem: {
+    type: Sequelize.STRING,
+    allowNull: false,
+}
   
 })
 

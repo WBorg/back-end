@@ -1,6 +1,9 @@
 const Users = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fs = require('fs')
+
+
 
 
 
@@ -188,15 +191,15 @@ exports.validaToken =  async (req, res) => {
 
 /***************************************************************************************************** */
 exports.editProfileImage = async (req,res)=>{
-
+console.log(req.file)
 
   if(req.file){
       console.log(req.file)
 
       /* apagando a imagem antiga no diretório */
-      await Users.findByPk(req.userId)
+      // console.log(req.key)
+      await Users.findByPk(req.key)
       .then( user => {
-          console.log(user)
           const imgOld = './public/upload/users/' + user.dataValues.imagem
 
           fs.access(imgOld, (err)=>{
@@ -204,17 +207,18 @@ exports.editProfileImage = async (req,res)=>{
                   fs.unlink(imgOld, ()=>{})
               }
           })
-      }).catch(()=>{
+      }).catch((err)=>{
           return res.status(400).json({
               erro: true,
-              mensagem: "Erro: Perfil do usuário não encontrado!"
+              mensagem: "Erro: Perfil do usuário não encontrado!",
+              msg : `${err}`
           })
       })
       /******************************************/
 
 
       await Users.update({imagem: req.file.filename},
-                      {where: {id: req.userId}})
+                      {where: {id: req.key}})
       .then(()=>{
               return res.json({
                   erro: false,

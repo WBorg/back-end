@@ -20,6 +20,7 @@ usersRoutes.post("/login", users.login);
 usersRoutes.put("/changepass",validaToken, users.changepass);
 
 usersRoutes.put("/edit-profile-image",validaToken,upload.single('image'), users.editProfileImage);
-module.exports = usersRoutes;
 
 usersRoutes.get("/view-profile/:id",validaToken, users.viewProfile);
+
+module.exports = usersRoutes;
