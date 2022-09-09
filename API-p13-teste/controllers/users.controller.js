@@ -136,13 +136,6 @@ exports.login =  async (req, res) => {
 
 
 
-  // return res.json({
-  //     erro:false,
-  //     mensagem: "Login realizado com sucesso!!!",
-  //     name: user.name,
-  //     email: user.email,
-  //     gender: user.gender
-  // })
 }
 /********************************************************************** */
 exports.changepass =  async (req, res) => {
