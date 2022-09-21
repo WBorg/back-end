@@ -40,6 +40,6 @@ app.use(router);
 
 
 
-app.listen(process.env.PORT, ()=>{
-  console.log(`Servidor iniciado na porta ${process.env.PORT} http://localhost:${process.env.PORT}`);
+app.listen(4500, ()=>{
+  console.log(`Servidor iniciado na porta 4500 http://localhost:4500`);
 });

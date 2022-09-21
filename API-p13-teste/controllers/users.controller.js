@@ -2,6 +2,12 @@ const Users = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs')
+// const express = require('express');
+// const app = express();
+// const path = require('path');
+// app.use('/files', express.static(path.resolve(__dirname, "public", "upload")))
+
+
 
 
 
@@ -49,6 +55,8 @@ exports.findAll = async(req,res)=>{
 /**************************************************************************** */
 exports.update = async(req,res)=>{
   const {id} = req.body;
+  req.body.password = await bcrypt.hash(req.body.password, 8)
+
 
   await Users.update(req.body, {where: {id}})
   .then(()=>{
@@ -184,15 +192,13 @@ exports.validaToken =  async (req, res) => {
 
 /***************************************************************************************************** */
 exports.editProfileImage = async (req,res)=>{
-console.log(req.file)
 
   if(req.file){
-      console.log(req.file)
 
       /* apagando a imagem antiga no diretório */
-      // console.log(req.key)
-      await Users.findByPk(req.key)
+      await Users.findByPk(req.userId)
       .then( user => {
+
           const imgOld = './public/upload/users/' + user.dataValues.imagem
 
           fs.access(imgOld, (err)=>{
@@ -211,7 +217,7 @@ console.log(req.file)
 
 
       await Users.update({imagem: req.file.filename},
-                      {where: {id: req.key}})
+                      {where: {id: req.userId}})
       .then(()=>{
               return res.json({
                   erro: false,
@@ -232,6 +238,8 @@ console.log(req.file)
 }   
 
 }
+/****************************************************************************************** */
+
 
 /****************************************************************************************** */
 
@@ -246,13 +254,13 @@ exports.viewProfile =  async (req, res) => {
               mensagem: "Erro: Nenhum Usuário encontrado!"
           })
       }
-      if(users.image){
-          var endImage = process.env.URL_IMG + "/files/users" + users.image
+      if(users.imagem){
+      var endImagem = "http://localhost:4500/files/users/" + users.imagem
+          
       }
       else{
-        var endImage = ""
+        var endImagem = ""
       }
-      var endImagem = "http://localhost:4500/files/users/" + users.imagem
       res.status(200).json({
           erro:false,
           users,

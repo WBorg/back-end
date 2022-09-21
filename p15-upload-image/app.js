@@ -270,6 +270,6 @@ app.put('/edit-profile-image', validaToken,upload.single('image'), async (req,re
 }   
 
 })
-app.listen(process.env.PORT, () => {
-    console.log(`Servidor iniciado na porta ${process.env.PORT} http://localhost:${process.env.PORT}`);
+app.listen(3000, () => {
+    console.log(`Servidor iniciado na porta 3000 http://localhost:3000`);
 });

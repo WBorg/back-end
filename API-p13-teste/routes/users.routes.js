@@ -1,6 +1,6 @@
 const usersRoutes = require('express').Router();
 const users = require('../controllers/users.controller');
-const { validaToken } = require('../middlewares/auth');
+const { validaToken} = require('../middlewares/auth');
 const upload = require('../middlewares/uploadImgUser');
 
 
